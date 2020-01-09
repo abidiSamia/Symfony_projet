@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Agency' %}
+
+{% block body %}
+  <div class="jumbotron text-center">
+    <h1 class="mb-4">Agency</h1>
+    <p>Que diriez-vous de vendre votre bien en 48H chrono  ? C’est la proposition de <strong>Agency</strong>, créée en Décembre 2018. La site se propose de faire une offre d’achat ferme au vendeur après estimation, et de lui acheter le bien dans la foulée.<br>
+    Agency revend ensuite, après relooking de l’appartement selon le principe du home staging. Autre proposition, un engagement de vendre l’appartement dans les 3 mois.</p>
+  </div>
+
+  <div class="container">
+    <h2>Les derniers biens</h2>
+    <div class="row flex">
+      {% for property in properties %}
+        <div class="col-md-3 mb-3">
+          <div class="card example hoverable">
+              {% if property.filename %}
+                <img src="{{ vich_uploader_asset(property, "imageFile") | imagine_filter('thumb') }}" alt="apercu" class="card-img-top" style="width: 100%; height: auto;">
+                {% else %}
+                <img src="{{ 'images/properties/empty.png' | imagine_filter('thumb') }}" alt="apercu" class="card-img-top" style="width: 100%; height: auto;">
+              {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}" class="teal-text">{{ property.title }}</a>
+              </h5>
+              <p class="card-text">{{ property.city }} ({{ property.postalCode }})</p>
+              <div class="teal-text" style="font-weight: bold;font-size: 2rem;">{{ property.formattedPrice }} €</div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
